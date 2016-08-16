@@ -3,12 +3,14 @@ var map = { // Only need paths that we use in the app and are not imported in ht
   'rxjs': 'js/vendor/rxjs',
   '@angular': 'js/vendor/@angular',
   'ng2-bootstrap': 'js/vendor/ng2-bootstrap',
+  'socket.io-client': 'js/vendor/socket.io-client',
   'moment': 'js/vendor/moment/moment.js'
 };
 var packages = {
   'app': { main: 'boot.js', defaultExtension: 'js' }, // Append .js on import statements
   'rxjs': { defaultExtension: 'js' }, // Only default Extension, no boot file
-  'ng2-bootstrap': { defaultExtension: 'js'}
+  'ng2-bootstrap': { defaultExtension: 'js'},
+  'socket.io-client': { defaultExtension: 'js'}
 };
 
 var packageNames = [

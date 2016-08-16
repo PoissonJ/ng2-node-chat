@@ -33,6 +33,9 @@ gulp.task('build-vendor', function() {
   gulp.src('node_modules/ng2-bootstrap/**')
     .pipe(gulp.dest(vendor + '/ng2-bootstrap/'));
 
+  gulp.src('node_modules/socket.io-client/**')
+    .pipe(gulp.dest(vendor + '/socket.io-client/'));
+
   gulp.src('node_modules/moment/**')
     .pipe(gulp.dest(vendor + '/moment/'));
 
