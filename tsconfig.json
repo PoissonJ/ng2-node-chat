@@ -10,6 +10,10 @@
     "noImplicitAny": false,
     "outDir": "../public/js/app"
   },
+  "filesGlob": [
+    "./assets/app/*.ts",
+    "./assets/app/**/*.ts"
+  ],
   "files": [
     "./assets/app/boot.ts"
   ],
