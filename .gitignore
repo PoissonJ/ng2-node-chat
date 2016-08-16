@@ -1,0 +1,6 @@
+typings
+public/js/
+public/**/*.map
+node_modules
+jspm_packages
+bower_components
