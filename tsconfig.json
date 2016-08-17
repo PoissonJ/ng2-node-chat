@@ -11,11 +11,13 @@
     "outDir": "../public/js/app"
   },
   "filesGlob": [
-    "./assets/app/*.ts",
-    "./assets/app/**/*.ts"
+    "./assets/**/*.ts"
   ],
   "files": [
-    "./assets/app/boot.ts"
+    "./assets/app/app.component.ts",
+    "./assets/app/boot.ts",
+    "./assets/app/chat.component.ts",
+    "./assets/app/services/chat.service.ts"
   ],
   "exclude": [
     "node_modules"

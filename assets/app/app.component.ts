@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 
 import { AlertComponent } from 'ng2-bootstrap/ng2-bootstrap';
+import * as io from 'socket.io-client';
 
 @Component({
   moduleId: module.id,

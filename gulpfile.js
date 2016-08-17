@@ -34,7 +34,7 @@ gulp.task('build-vendor', function() {
     .pipe(gulp.dest(vendor + '/ng2-bootstrap/'));
 
   gulp.src('node_modules/socket.io-client/**')
-    .pipe(gulp.dest(vendor + '/socket.io-client/'));
+    .pipe(gulp.dest(vendor + '/socket.io-client'));
 
   gulp.src('node_modules/moment/**')
     .pipe(gulp.dest(vendor + '/moment/'));
@@ -102,9 +102,9 @@ gulp.task('watch', function() {
 
 
 gulp.task('clean', function() {
-  del(appProd + '/*');
-  del(vendor + '/*');
+  del(appProd + '/**/*');
+  del(vendor + '/**/*');
 });
 
 gulp.task('default', ['build-vendor', 'watch', 'build-ts', 'build-copy', 'browser-sync']);
-gulp.task('clean', ['clean']);
+// gulp.task('clean', ['clean']);
