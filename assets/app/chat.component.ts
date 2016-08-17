@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy,
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewChecked,
   Input, trigger, state, style, transition, animate } from '@angular/core';
 import { Control }           from '@angular/common';
 import { ChatService }       from './services/chat.service';
@@ -29,12 +29,15 @@ declare var $: JQueryStatic;
     ])
   ]
 })
-export class ChatComponent implements OnInit, OnDestroy {
+export class ChatComponent implements AfterViewChecked, OnInit, OnDestroy {
   messages = [];
   connection;
   message: string;
   username: string;
+  testModel;
   state: string = 'inactive'
+
+  @ViewChild('scrollMe') private myScrollContainer: ElementRef;
 
   constructor(private chatService: ChatService) { }
 
@@ -56,12 +59,22 @@ export class ChatComponent implements OnInit, OnDestroy {
     this.message = '';
   }
 
+  updateScrollPosition() {
+    try {
+      this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
+      console.log(this.myScrollContainer.nativeElement.scrollTop)
+    } catch (err) { }
+  }
+
   ngOnInit() {
     this.connection = this.chatService.getMessages().subscribe(message => {
-      document.getElementById('msg_container_base').scrollTop = 0;
       this.messages.push(message);
       console.log(message);
+      // this.updateScrollPosition();
     })
+  }
+  ngAfterViewChecked() {
+    this.updateScrollPosition();
   }
 
 
