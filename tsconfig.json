@@ -17,6 +17,7 @@
     "./assets/app/app.component.ts",
     "./assets/app/boot.ts",
     "./assets/app/chat.component.ts",
+    "./assets/app/message.model.ts",
     "./assets/app/services/chat.service.ts"
   ],
   "exclude": [

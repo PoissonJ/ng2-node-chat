@@ -37,19 +37,29 @@ server.on('listening', onListening);
 /**
  * Socket.io functions
  */
+var messages = [];
 io.on('connection', (socket) => {
   console.log('user connected');
+
+  io.emit('message', {
+    messageArray: messages
+  })
 
   socket.on('disconnect', () => {
     console.log('user disconnected');
   });
 
   socket.on('add-message', (obj) => {
-    console.log(JSON.stringify(obj));
+    console.log('object in server add-message: ' + JSON.stringify(obj));
+    var message = {
+      username: obj.username,
+      message: obj.message
+    }
+
+    messages.push(message);
+
     io.emit('message', {
-      type: 'new-message',
-      text: obj.message,
-      username: obj.username
+      message: message
     });
   });
 });

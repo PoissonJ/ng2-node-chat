@@ -11,6 +11,7 @@ export class ChatService {
       message: message,
       username: username
     }
+    console.log('obj from service in send: ' + JSON.stringify(obj));
     this.socket.emit('add-message', obj);
   }
 
@@ -18,7 +19,8 @@ export class ChatService {
     let observable = new Observable(observer => {
       this.socket = io(this.url);
       this.socket.on('message', (data) => {
-        observer.next(data);
+        console.log('data from service: ' + data.messages);
+        observer.next(data.messages);
       });
       return () => {
         this.socket.disconnect();

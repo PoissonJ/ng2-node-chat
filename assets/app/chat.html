@@ -21,7 +21,7 @@
                         <a href="#"><span class="glyphicon glyphicon-remove icon_close"></span></a>
                     </div>
                 </div>
-                <div  *ngIf="username" class="panel-body msg_container_base" #scrollMe >
+                <div  *ngIf="usernameCompleted" class="panel-body msg_container_base" #scrollMe >
                     <div class="row msg_container base_sent">
                         <div class="col-md-10 col-xs-10">
                             <div class="messages msg_sent">
@@ -34,17 +34,17 @@
                         </div>
                     </div>
                   <div *ngFor="let message of messages">
-                    <div class="row msg_container {{message.username === 'summit' ? 'base_sent' : 'base_receive'}}">
-                        <div *ngIf="message.username !== 'summit'" class="col-md-2 col-xs-2 avatar">
+                    <div class="row msg_container {{message?.username === 'summit' ? 'base_sent' : 'base_receive'}}">
+                        <div *ngIf="message?.username !== 'summit'" class="col-md-2 col-xs-2 avatar">
                             <img src="pacman.png">
                         </div>
                         <div class="col-md-10 col-xs-10">
                             <div class="messages">
-                                <p>{{message.text}}</p>
+                                <p>{{message.message}}</p>
                                 <time datetime="2009-11-13T20:00">{{message.username}} • 51 min</time>
                             </div>
                         </div>
-                        <div *ngIf="message.username === 'summit'" class="col-md-2 col-xs-2 avatar">
+                        <div *ngIf="message?.username === 'summit'" class="col-md-2 col-xs-2 avatar">
                             <img src="pacman.png">
                         </div>
                     </div>
@@ -52,16 +52,16 @@
                 </div>
 
                 <div  class="panel-footer">
-                    <div *ngIf="!username" class="input-group">
-                        <input #username (keyup.enter)="setUsername(username.value)" type="text" class="form-control input-sm chat_input" placeholder="Enter Username"  />
+                    <div *ngIf="!usernameCompleted" class="input-group">
+                        <input [(ngModel)]="messageModel.username"  (keyup.enter)="setUsername()" type="text" class="form-control input-sm chat_input" placeholder="Enter Username"  />
                         <span class="input-group-btn">
-                        <button class="btn btn-primary btn-sm" (click)="setUsername(username.value)" >Enter</button>
+                        <button class="btn btn-primary btn-sm" (click)="setUsername()" >Enter</button>
                         </span>
                     </div>
-                    <div *ngIf="username" class="input-group">
-                        <input [(ngModel)]="message" type="text" class="form-control input-sm chat_input" placeholder="Write your message here..." (keyup.enter)="sendMessage()" autofocus/>
+                    <div *ngIf="usernameCompleted" class="input-group">
+                        <input [(ngModel)]="messageModel.message" type="text" class="form-control input-sm chat_input" placeholder="Write your message here..." (keyup.enter)="sendMessage()" autofocus/>
                         <span class="input-group-btn">
-                        <button class="btn btn-primary btn-sm"(click)="sendMessage()">Send</button>
+                        <button class="btn btn-primary btn-sm" (click)="sendMessage()">Send</button>
                         </span>
                     </div>
                 </div>

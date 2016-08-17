@@ -3,7 +3,7 @@ import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewChecked,
 import { Control }           from '@angular/common';
 import { ChatService }       from './services/chat.service';
 
-declare var $: JQueryStatic;
+import { Message } from './message.model';
 
 @Component({
   moduleId: module.id,
@@ -31,15 +31,16 @@ declare var $: JQueryStatic;
 })
 export class ChatComponent implements AfterViewChecked, OnInit, OnDestroy {
   messages = [];
+  usernameCompleted: boolean = false;
   connection;
-  message: string;
-  username: string;
-  testModel;
+  messageModel: Message;
   state: string = 'inactive'
 
   @ViewChild('scrollMe') private myScrollContainer: ElementRef;
 
-  constructor(private chatService: ChatService) { }
+  constructor(private chatService: ChatService) {
+    this.messageModel = new Message();
+  }
 
   toggleOpen() {
     if (this.state === 'active') {
@@ -47,22 +48,21 @@ export class ChatComponent implements AfterViewChecked, OnInit, OnDestroy {
     } else {
       this.state = 'active';
     }
-    console.log(this.state);
   }
-  setUsername(user) {
-    this.username = user;
+  setUsername() {
+    this.usernameCompleted = true;
+    console.log('message array in component:' + this.messages);
   }
 
   sendMessage() {
-    console.log(this.message);
-    this.chatService.sendMessage(this.message, this.username);
-    this.message = '';
+    console.log('message from component send: ' + this.messageModel.message);
+    this.chatService.sendMessage(this.messageModel.message, this.messageModel.username);
+    this.messageModel.message = '';
   }
 
   updateScrollPosition() {
     try {
       this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
-      console.log(this.myScrollContainer.nativeElement.scrollTop)
     } catch (err) { }
   }
 
@@ -70,7 +70,6 @@ export class ChatComponent implements AfterViewChecked, OnInit, OnDestroy {
     this.connection = this.chatService.getMessages().subscribe(message => {
       this.messages.push(message);
       console.log(message);
-      // this.updateScrollPosition();
     })
   }
   ngAfterViewChecked() {
