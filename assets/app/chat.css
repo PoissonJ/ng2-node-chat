@@ -12,8 +12,6 @@
 .chat-window{
     bottom:0;
     position:fixed;
-    float:right !important;
-    /*margin-left:500px;*/
 }
 .chat-window > div > .panel{
     border-radius: 5px 5px 0 0;
@@ -35,10 +33,6 @@
   position: relative;
   overflow: hidden;
 }
-/*.msg_receive{
-    padding-left:0;
-    margin-left:0;
-}*/
 .msg_sent{
     padding-bottom:20px !important;
     margin-right:0;

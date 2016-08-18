@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewChecked,
   Input, trigger, state, style, transition, animate } from '@angular/core';
-import { Control }           from '@angular/common';
+import { Control } from '@angular/common';
 import {REACTIVE_FORM_DIRECTIVES, FormBuilder, FormGroup, Validators, FormControl} from '@angular/forms';
-import { ChatService }       from './services/chat.service';
+import { ChatService } from './services/chat.service';
 
 import { Message } from './message.model';
 

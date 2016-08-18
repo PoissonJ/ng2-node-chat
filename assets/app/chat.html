@@ -29,7 +29,6 @@
                     <div class="row msg_container {{message.username === 'summit' ? 'base_sent' : 'base_receive'}}">
                         <div *ngIf="message.username !== 'summit'" class="col-md-2 col-xs-2 avatar">
                             <span class="fa fa-user fa-3x"></span>
-                            <!-- <img src="pacman.png"> -->
                         </div>
                         <div class="col-md-10 col-xs-10">
                             <div class="messages">
@@ -43,7 +42,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="panel-footer">
                 <div *ngIf="!usernameCompleted" class="input-group">
                     <input [(ngModel)]="messageModel.username" (keyup.enter)="setUsername()" type="text" class="form-control input-sm chat_input" placeholder="Enter Username" />
