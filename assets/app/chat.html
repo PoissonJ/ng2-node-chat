@@ -28,7 +28,8 @@
                 <div *ngFor="let message of messages">
                     <div class="row msg_container {{message.username === 'summit' ? 'base_sent' : 'base_receive'}}">
                         <div *ngIf="message.username !== 'summit'" class="col-md-2 col-xs-2 avatar">
-                            <img src="pacman.png">
+                            <span class="fa fa-user fa-3x"></span>
+                            <!-- <img src="pacman.png"> -->
                         </div>
                         <div class="col-md-10 col-xs-10">
                             <div class="messages">

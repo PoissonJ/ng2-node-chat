@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewChecked,
   Input, trigger, state, style, transition, animate } from '@angular/core';
 import { Control }           from '@angular/common';
+import {REACTIVE_FORM_DIRECTIVES, FormBuilder, FormGroup, Validators, FormControl} from '@angular/forms';
 import { ChatService }       from './services/chat.service';
 
 import { Message } from './message.model';
@@ -58,12 +59,14 @@ export class ChatComponent implements AfterViewChecked, OnInit, OnDestroy {
 
   setUsername() {
     this.usernameCompleted = true;
+    this.username = this.messageModel.username;
     console.log('message array in component:' + this.messages);
   }
 
   sendMessage() {
+    console.log('username: ' + this.username);
     console.log('message from component send: ' + this.messageModel.message);
-    this.chatService.sendMessage(this.messageModel.message, this.messageModel.username);
+    this.chatService.sendMessage(this.messageModel.message, this.username);
     this.messageModel = new Message();
   }
 
