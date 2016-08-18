@@ -12,8 +12,8 @@
 .chat-window{
     bottom:0;
     position:fixed;
-    float:right;
-    margin-left:10px;
+    float:right !important;
+    /*margin-left:500px;*/
 }
 .chat-window > div > .panel{
     border-radius: 5px 5px 0 0;
