@@ -33,14 +33,19 @@ export class ChatComponent implements AfterViewChecked, OnInit, OnDestroy {
 
   @ViewChild('scrollMe') private myScrollContainer: ElementRef;
 
-  messages = [];
-  usernameCompleted: boolean = false;
+  messages = new Array;
+  usernameCompleted = new Boolean;
+  username = new String;
+  state = new String;
+
   connection;
   messageModel: Message;
-  state: string = 'inactive'
 
   constructor(private chatService: ChatService) {
+    console.log('Constructing component');
     this.messageModel = new Message();
+    this.usernameCompleted = false;
+    this.state = 'inactive';
   }
 
   toggleOpen() {
@@ -59,7 +64,7 @@ export class ChatComponent implements AfterViewChecked, OnInit, OnDestroy {
   sendMessage() {
     console.log('message from component send: ' + this.messageModel.message);
     this.chatService.sendMessage(this.messageModel.message, this.messageModel.username);
-    this.messageModel.message = '';
+    this.messageModel = new Message();
   }
 
   updateScrollPosition() {
@@ -70,8 +75,10 @@ export class ChatComponent implements AfterViewChecked, OnInit, OnDestroy {
 
   ngOnInit() {
     this.connection = this.chatService.getMessages().subscribe(message => {
-      this.messages.push(message);
-      console.log(message);
+      console.log('mesage in ngOnInit: ' + JSON.stringify(message));
+      if (message) {
+        this.messages.push(message);
+      }
     })
   }
 

@@ -19,8 +19,8 @@ export class ChatService {
     let observable = new Observable(observer => {
       this.socket = io(this.url);
       this.socket.on('message', (data) => {
-        console.log('data from service: ' + data.messages);
-        observer.next(data.messages);
+        console.log('data from service: ' + data.message);
+        observer.next(data.message);
       });
       return () => {
         this.socket.disconnect();
