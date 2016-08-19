@@ -50,7 +50,7 @@
                     </span>
                 </div>
                 <div *ngIf="usernameCompleted" class="input-group">
-                    <input [(ngModel)]="messageModel.message" type="text" class="form-control input-sm chat_input" placeholder="Write your message here..." (keyup.enter)="sendMessage()" autofocus/>
+                    <input [(ngModel)]="messageModel.message" type="text" class="form-control input-sm chat_input" placeholder="Write your message here..." (keyup.enter)="sendMessage()" (keyup)="emitTyping()" autofocus/>
                     <span class="input-group-btn">
                         <button class="btn btn-primary btn-sm" (click)="sendMessage()">Send</button>
                     </span>

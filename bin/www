@@ -63,6 +63,10 @@ io.on('connection', (socket) => {
       message: message
     });
   });
+
+  socket.on('typing', (obj) => {
+    socket.broadcast.emit('userTyping', {user: obj.username});
+  });
 });
 
 /**

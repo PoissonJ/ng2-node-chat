@@ -76,6 +76,11 @@ export class ChatComponent implements AfterViewChecked, OnInit, OnDestroy {
     } catch (err) { }
   }
 
+  emitTyping() {
+    console.log(this.username + ' is typing');
+    this.chatService.typing(this.username);
+  }
+
   ngOnInit() {
     this.connection = this.chatService.getMessages().subscribe(message => {
       console.log('mesage in ngOnInit: ' + JSON.stringify(message));

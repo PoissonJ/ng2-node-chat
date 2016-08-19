@@ -29,4 +29,8 @@ export class ChatService {
     })
     return observable;
   }
+
+  typing(username) {
+
+  }
 }
