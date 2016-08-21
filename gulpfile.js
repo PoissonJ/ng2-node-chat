@@ -62,7 +62,6 @@ gulp.task('nodemon', function(cb) {
     // nodemon our expressjs server
     script: './bin/www',
     // watch core server file(s) that require server restart on change
-    // watch: ['./app.js', './views/**/*.js','./routes/**/*.js']
 		ignore: ['./assets/', './node_modules/', './public/', './typings']
   })
   .on('start', function onStart() {
@@ -84,11 +83,9 @@ gulp.task('browser-sync', ['nodemon'], function() {
   // for more browser-sync config options: http://www.browsersync.io/docs/options/
   browserSync({
     // informs browser-sync to proxy our expressjs app which would run at the following location
-    // proxy: 'scfldevjp.summit.local:3000',
     proxy: 'localhost:3000',
     port: 4000,
     // open the proxied app in chrome
-    //browser: 'google chrome'
   });
 });
 
@@ -108,4 +105,3 @@ gulp.task('clean', function() {
 });
 
 gulp.task('default', ['build-vendor', 'watch', 'build-ts', 'build-copy', 'browser-sync']);
-// gulp.task('clean', ['clean']);

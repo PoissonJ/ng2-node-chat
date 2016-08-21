@@ -51,7 +51,6 @@ io.on('connection', (socket) => {
   });
 
   socket.on('add-message', (obj) => {
-    console.log('object in server add-message: ' + JSON.stringify(obj));
     var message = {
       username: obj.username,
       message: obj.message
@@ -65,9 +64,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('typing', (obj) => {
-    // socket.broadcast.emit
     socket.broadcast.emit('userTyping', {username: obj.username});
-    // io.emit('userTyping', {username: obj.username});
   });
 });
 

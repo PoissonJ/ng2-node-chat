@@ -45,7 +45,6 @@ export class ChatComponent implements AfterViewChecked, OnInit, OnDestroy {
   messageModel: Message;
 
   constructor(private chatService: ChatService) {
-    console.log('Constructing component');
     this.messageModel = new Message();
     this.usernameCompleted = false;
     this.state = 'inactive';
@@ -62,12 +61,9 @@ export class ChatComponent implements AfterViewChecked, OnInit, OnDestroy {
   setUsername() {
     this.usernameCompleted = true;
     this.username = this.messageModel.username;
-    console.log('message array in component:' + this.messages);
   }
 
   sendMessage() {
-    console.log('username: ' + this.username);
-    console.log('message from component send: ' + this.messageModel.message);
     this.chatService.sendMessage(this.messageModel.message, this.username);
     this.messageModel = new Message();
   }

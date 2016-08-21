@@ -12,7 +12,6 @@ export class ChatService {
       message: message,
       username: username
     }
-    console.log('obj from service in send: ' + JSON.stringify(obj));
     this.socket.emit('add-message', obj);
   }
 
@@ -44,7 +43,7 @@ export class ChatService {
   }
 
   typing(username) {
-    this.socket.emit('typing', {username: username});
+    this.socket.emit('typing', { username: username });
     this.socket.on
   }
 }
