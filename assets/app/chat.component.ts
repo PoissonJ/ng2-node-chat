@@ -2,8 +2,9 @@ import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewChecked,
   Input, trigger, state, style, transition, animate } from '@angular/core';
 import { Control } from '@angular/common';
 import {REACTIVE_FORM_DIRECTIVES, FormBuilder, FormGroup, Validators, FormControl} from '@angular/forms';
-import { ChatService } from './services/chat.service';
+import * as io from 'socket.io-client';
 
+import { ChatService } from './services/chat.service';
 import { Message } from './message.model';
 
 @Component({
@@ -39,7 +40,8 @@ export class ChatComponent implements AfterViewChecked, OnInit, OnDestroy {
   username = new String;
   state = new String;
 
-  connection;
+  messageConnection;
+  isTypingConnection;
   messageModel: Message;
 
   constructor(private chatService: ChatService) {
@@ -77,17 +79,25 @@ export class ChatComponent implements AfterViewChecked, OnInit, OnDestroy {
   }
 
   emitTyping() {
-    console.log(this.username + ' is typing');
+    // console.log(this.username + ' is typing');
     this.chatService.typing(this.username);
   }
 
   ngOnInit() {
-    this.connection = this.chatService.getMessages().subscribe(message => {
+    this.messageConnection = this.chatService.getMessages().subscribe(message => {
       console.log('mesage in ngOnInit: ' + JSON.stringify(message));
       if (message) {
         this.messages.push(message);
       }
-    })
+    });
+
+    this.isTypingConnection = this.chatService.getIsTyping().subscribe(username => {
+      // console.log('mesage in ngOnInit: ' + JSON.stringify(username));
+      if (username) {
+        // this.messages.push(username);
+        console.log(username + ' is typing...');
+      }
+    });
   }
 
   ngAfterViewChecked() {
@@ -95,6 +105,7 @@ export class ChatComponent implements AfterViewChecked, OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.connection.unsubscribe();
+    this.messageConnection.unsubscribe();
+    this.isTypingConnection.unsubscribe();
   }
 }

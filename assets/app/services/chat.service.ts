@@ -30,7 +30,21 @@ export class ChatService {
     return observable;
   }
 
-  typing(username) {
+  getIsTyping() {
+    let observable = new Observable(observer => {
+      this.socket = io(this.url);
+      this.socket.on('userTyping', (data) => {
+        observer.next(data.username);
+      });
+      return () => {
+        this.socket.disconnect();
+      };
+    })
+    return observable;
+  }
 
+  typing(username) {
+    this.socket.emit('typing', {username: username});
+    this.socket.on
   }
 }

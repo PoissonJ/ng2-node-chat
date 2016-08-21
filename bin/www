@@ -65,7 +65,9 @@ io.on('connection', (socket) => {
   });
 
   socket.on('typing', (obj) => {
-    socket.broadcast.emit('userTyping', {user: obj.username});
+    // socket.broadcast.emit
+    socket.broadcast.emit('userTyping', {username: obj.username});
+    // io.emit('userTyping', {username: obj.username});
   });
 });
 
