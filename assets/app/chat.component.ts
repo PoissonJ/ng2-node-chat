@@ -16,17 +16,17 @@ import { Message } from './message.model';
   animations: [
     trigger('slide', [
       state('inactive', style({
-        transform: 'translateY(90%)',
+        transform: 'translateY(90.2%)', // Lol
         'min-height': '400px'
       })),
       state('active', style({
-        transform: 'translateY(0%)'
+        transform: 'translateY(5%)'
       })),
       transition('inactive => active', [
-        animate('100ms linear', style({ transform: 'translateY(90%)' }))
+        animate('100ms linear', style({ transform: 'translateY(90.2%)' }))
       ]),
       transition('active => inactive', [
-        animate('100ms linear', style({ transform: 'translateY(0%)' }))
+        animate('100ms linear', style({ transform: 'translateY(5%)' }))
       ])
     ])
   ]
