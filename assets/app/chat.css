@@ -9,6 +9,10 @@
     padding: 0;
 }
 
+.chat .header {
+  margin-bottom: 7px;
+}
+
 .chat li
 {
     margin-bottom: 10px;
@@ -31,6 +35,11 @@
 {
     margin: 0;
     color: #777777;
+
+}
+
+.chat .chat-img {
+  margin-top: 2%;
 }
 
 .panel .slidedown .glyphicon, .chat .glyphicon
@@ -62,7 +71,7 @@
     background-color: #555;
 }
 
-// Extra big for Twitter Bootstrap
+/* Extra big for Twitter Bootstrap*/
 
 @media screen and (min-width: 1400px) {
   .container {

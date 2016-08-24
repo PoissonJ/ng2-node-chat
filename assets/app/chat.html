@@ -1,43 +1,33 @@
 <div class="container">
     <div class="row">
-        <div @slide="state" class="col-md-5 col-lg-4 col-xs-offset-5 col-lg-offset-6 entireChat">
+        <div @slide="state" class="col-md-4 col-lg-3 col-xs-offset-6 col-lg-offset-7 entireChat">
             <div class="panel panel-primary">
                 <div class="panel-heading" (click)="toggleOpen()">
                     <span class="glyphicon glyphicon-comment"></span>
                     Chat
                     <div class="btn-group pull-right">
-                        <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
-                            <span class="glyphicon glyphicon-chevron-down"></span>
-                        </button>
-                        <ul class="dropdown-menu slidedown">
-                            <li>
-                                <a href="http://www.jquery2dotnet.com">
-                                    <span class="glyphicon glyphicon-refresh"></span>Refresh</a>
-                            </li>
-                            <li>
-                                <a href="http://www.jquery2dotnet.com">
-                                    <span class="glyphicon glyphicon-ok-sign"></span>Available</a>
-                            </li>
-                            <li>
-                                <a href="http://www.jquery2dotnet.com">
-                                    <span class="glyphicon glyphicon-remove"></span>Busy</a>
-                            </li>
-                            <li>
-                                <a href="http://www.jquery2dotnet.com">
-                                    <span class="glyphicon glyphicon-time"></span>
-                                    Away</a>
-                            </li>
-                            <li class="divider"></li>
-                            <li>
-                                <a href="http://www.jquery2dotnet.com">
-                                    <span class="glyphicon glyphicon-off"></span>
-                                    Sign Out</a>
-                            </li>
-                        </ul>
+                        <span *ngIf="state === 'active'" (click)="toggleOpen()" class="glyphicon glyphicon-minus icon_minim"></span>
+                        <span *ngIf="state === 'inactive'" (click)="toggleOpen()" class="glyphicon glyphicon-plus icon_minim"></span>
                     </div>
                 </div>
-                <div class="panel-body">
+                <div class="panel-body" #scrollMe>
                     <ul class="chat">
+                        <li class="right clearfix">
+                            <span class="chat-img pull-right">
+                                <!-- <img src="http://placehold.it/50/FA6F57/fff&amp;text=ME" alt="User Avatar" class="img-circle"> -->
+                                <img src="pacman.png">
+                            </span>
+                            <div class="chat-body clearfix">
+                                <div class="header">
+                                    <small class=" text-muted">
+                                        <span class="glyphicon glyphicon-time"></span>13 mins ago</small>
+                                    <strong class="pull-right primary-font">Summit</strong>
+                                </div>
+                                <p class="text-justify">
+                                    Welcome to the Summit chat service. Type a message below to contact a customer service representative.
+                                </p>
+                            </div>
+                        </li>
                         <li class="left clearfix">
                             <span class="chat-img pull-left">
                                 <img src="http://placehold.it/50/55C1E7/fff&amp;text=U" alt="User Avatar" class="img-circle">
@@ -48,22 +38,7 @@
                                     <small class="pull-right text-muted">
                                         <span class="glyphicon glyphicon-time"></span>12 mins ago</small>
                                 </div>
-                                <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare dolor, quis ullamcorper ligula sodales.
-                                </p>
-                            </div>
-                        </li>
-                        <li class="right clearfix">
-                            <span class="chat-img pull-right">
-                                <img src="http://placehold.it/50/FA6F57/fff&amp;text=ME" alt="User Avatar" class="img-circle">
-                            </span>
-                            <div class="chat-body clearfix">
-                                <div class="header">
-                                    <small class=" text-muted">
-                                        <span class="glyphicon glyphicon-time"></span>13 mins ago</small>
-                                    <strong class="pull-right primary-font">Bhaumik Patel</strong>
-                                </div>
-                                <p>
+                                <p class="text-justify">
                                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare dolor, quis ullamcorper ligula sodales.
                                 </p>
                             </div>
