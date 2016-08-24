@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewChecked,
-  Input, trigger, state, style, transition, animate } from '@angular/core';
+  Input, trigger, state, style, transition, animate, Renderer } from '@angular/core';
 import { Control } from '@angular/common';
 import {REACTIVE_FORM_DIRECTIVES, FormBuilder, FormGroup, Validators, FormControl} from '@angular/forms';
 import * as io from 'socket.io-client';
@@ -34,6 +34,7 @@ import { Message } from './message.model';
 export class ChatComponent implements AfterViewChecked, OnInit, OnDestroy {
 
   @ViewChild('scrollMe') private myScrollContainer: ElementRef;
+  @ViewChild('myInput') private inputElement;
 
   messages = new Array;
   usernameCompleted = new Boolean;
@@ -44,7 +45,7 @@ export class ChatComponent implements AfterViewChecked, OnInit, OnDestroy {
   isTypingConnection;
   messageModel: Message;
 
-  constructor(private chatService: ChatService) {
+  constructor(private chatService: ChatService, private renderer: Renderer) {
     this.messageModel = new Message();
     this.usernameCompleted = false;
     this.state = 'inactive';
@@ -98,10 +99,15 @@ export class ChatComponent implements AfterViewChecked, OnInit, OnDestroy {
 
   ngAfterViewChecked() {
     this.updateScrollPosition();
+    this.renderer.invokeElementMethod(this.inputElement.nativeElement, 'focus');
   }
 
   ngOnDestroy() {
     this.messageConnection.unsubscribe();
     this.isTypingConnection.unsubscribe();
+  }
+
+  ngAfterViewInit() {
+    this.renderer.invokeElementMethod(this.inputElement.nativeElement, 'focus');
   }
 }

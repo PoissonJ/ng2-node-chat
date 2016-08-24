@@ -1,7 +1,7 @@
 <div class="container">
     <div class="row">
         <div @slide="state" class="col-md-4 col-lg-3 col-xs-offset-6 col-lg-offset-7 entireChat">
-            <div class="panel panel-primary">
+            <div class="panel panel-primary {{!usernameCompleted ? 'smallerMarginBottom' : ''}}">
                 <div class="panel-heading" (click)="toggleOpen()">
                     <span class="glyphicon glyphicon-comment"></span>
                     Chat
@@ -10,11 +10,10 @@
                         <span *ngIf="state === 'inactive'" class="glyphicon glyphicon-plus icon_minim"></span>
                     </div>
                 </div>
-                <div class="panel-body" #scrollMe>
+                <div *ngIf="usernameCompleted" class="panel-body" #scrollMe>
                     <ul class="chat">
                         <li class="right clearfix">
                             <span class="chat-img pull-right">
-                                <!-- <img src="http://placehold.it/50/FA6F57/fff&amp;text=ME" alt="User Avatar" class="img-circle"> -->
                                 <img src="pacman.png">
                             </span>
                             <div class="chat-body clearfix">
@@ -28,60 +27,43 @@
                                 </p>
                             </div>
                         </li>
-                        <li class="left clearfix">
-                            <span class="chat-img pull-left">
-                                <img src="http://placehold.it/50/55C1E7/fff&amp;text=U" alt="User Avatar" class="img-circle">
-                            </span>
-                            <div class="chat-body clearfix">
-                                <div class="header">
-                                    <strong class="primary-font">Jack Sparrow</strong>
-                                    <small class="pull-right text-muted">
-                                        <span class="glyphicon glyphicon-time"></span>12 mins ago</small>
+
+                        <div *ngFor="let message of messages">
+                            <li class="{{message.username === 'Summit' ? 'right' : 'left'}} clearfix">
+                                <span class="chat-img {{message.username === 'Summit' ? 'pull-right' : 'pull-left'}}">
+                                    <img *ngIf="message.username === 'Summit'" src="pacman.png" alt="Summit logo"/>
+                                    <img *ngIf="message.username !== 'Summit'" src="http://placehold.it/50/55C1E7/fff&amp;text=U" alt="User Avatar" class="img-circle">
+                                </span>
+                                <div class="chat-body">
+                                    <div class="header">
+                                        <strong class="primary-font {{message.username === 'Summit' ? 'pull-right':''}}">{{message.username}}</strong>
+                                        <small class="{{message.username === 'Summit' ? '':'pull-right'}} text-muted">
+                                            <span class="glyphicon glyphicon-time"></span>12 mins ago</small>
+                                    </div>
+                                    <p class="text-justify">{{message.message}}</p>
                                 </div>
-                                <p class="text-justify">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare dolor, quis ullamcorper ligula sodales.
-                                </p>
-                            </div>
-                        </li>
-                        <li class="left clearfix">
-                            <span class="chat-img pull-left">
-                                <img src="http://placehold.it/50/55C1E7/fff&amp;text=U" alt="User Avatar" class="img-circle">
-                            </span>
-                            <div class="chat-body clearfix">
-                                <div class="header">
-                                    <strong class="primary-font">Jack Sparrow</strong>
-                                    <small class="pull-right text-muted">
-                                        <span class="glyphicon glyphicon-time"></span>14 mins ago</small>
-                                </div>
-                                <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare dolor, quis ullamcorper ligula sodales.
-                                </p>
-                            </div>
-                        </li>
-                        <li class="right clearfix">
-                            <span class="chat-img pull-right">
-                                <img src="http://placehold.it/50/FA6F57/fff&amp;text=ME" alt="User Avatar" class="img-circle">
-                            </span>
-                            <div class="chat-body clearfix">
-                                <div class="header">
-                                    <small class=" text-muted">
-                                        <span class="glyphicon glyphicon-time"></span>15 mins ago</small>
-                                    <strong class="pull-right primary-font">Bhaumik Patel</strong>
-                                </div>
-                                <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare dolor, quis ullamcorper ligula sodales.
-                                </p>
-                            </div>
-                        </li>
+                            </li>
+                        </div>
+
                     </ul>
                 </div>
+
                 <div class="panel-footer">
-                    <div class="input-group">
-                        <input id="btn-input" type="text" class="form-control input-sm" placeholder="Type your message here...">
-                        <span class="input-group-btn">
-                            <button class="btn btn-warning btn-sm" id="btn-chat">
-                                Send</button>
-                        </span>
+                    <div *ngIf="!usernameCompleted">
+                        <div class="input-group">
+                            <input #myInput [(ngModel)]="messageModel.username" (keyup.enter)="setUsername()" id="btn-input" type="text" class="form-control input-sm" placeholder="Enter Username" />
+                            <span class="input-group-btn">
+                                <button (click)="setUsername()" class="btn btn-warning btn-sm" id="btn-chat">Enter</button>
+                            </span>
+                        </div>
+                    </div>
+                    <div *ngIf="usernameCompleted">
+                        <div class="input-group">
+                            <input #myInput [(ngModel)]="messageModel.message" (keyup.enter)="sendMessage()" (keyup)="emitTyping()" id="btn-input" type="text" class="form-control input-sm" placeholder="Type your message here..." />
+                            <span class="input-group-btn">
+                                <button (click)="sendMessage()" class="btn btn-warning btn-sm" id="btn-chat">Send</button>
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -120,8 +102,8 @@
                 </div>
             </div>
             <div *ngFor="let message of messages">
-                <div class="row msg_container {{message.username === 'summit' ? 'base_sent' : 'base_receive'}}">
-                    <div *ngIf="message.username !== 'summit'" class="col-md-2 col-xs-2 avatar">
+                <div class="row msg_container {{message.username === 'Summit' ? 'base_sent' : 'base_receive'}}">
+                    <div *ngIf="message.username !== 'Summit'" class="col-md-2 col-xs-2 avatar">
                         <span class="fa fa-user fa-3x"></span>
                     </div>
                     <div class="col-md-10 col-xs-10">
@@ -131,7 +113,7 @@
                                 • 51 min</time>
                         </div>
                     </div>
-                    <div *ngIf="message.username === 'summit'" class="avatar">
+                    <div *ngIf="message.username === 'Summit'" class="avatar">
                         <img src="pacman.png">
                     </div>
                 </div>
