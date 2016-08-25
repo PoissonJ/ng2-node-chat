@@ -33,9 +33,6 @@ gulp.task('build-vendor', function() {
   gulp.src('node_modules/ng2-bootstrap/**')
     .pipe(gulp.dest(vendor + '/ng2-bootstrap/'));
 
-  gulp.src('node_modules/socket.io-client/**')
-    .pipe(gulp.dest(vendor + '/socket.io-client'));
-
   gulp.src('node_modules/moment/**')
     .pipe(gulp.dest(vendor + '/moment/'));
 
@@ -52,7 +49,7 @@ gulp.task('build-ts', function() {
 });
 
 gulp.task('build-copy', function() {
-  return gulp.src([appDev + '/**/*.html', appDev + '/**/*.htm', appDev + '/**/*.css']) // load all css and html files
+  return gulp.src([appDev + '/**/*.html', appDev + '/**/*.css']) // load all css and html files
     .pipe(gulp.dest(appProd)); // Move to specified folder
 });
 
@@ -83,9 +80,8 @@ gulp.task('browser-sync', ['nodemon'], function() {
   // for more browser-sync config options: http://www.browsersync.io/docs/options/
   browserSync({
     // informs browser-sync to proxy our expressjs app which would run at the following location
-    proxy: 'localhost:3000',
+    proxy: 'http://localhost:3000',
     port: 4000,
-    // open the proxied app in chrome
   });
 });
 
@@ -95,13 +91,14 @@ gulp.task('bs-reload', function() {
 
 gulp.task('watch', function() {
   gulp.watch(appDev + '/**/*.ts', ['build-ts', browserSync.reload]); // compile ts when it's changed
-  gulp.watch(appDev + '/**/*.{html, htm, css}', ['build-copy', browserSync.reload]);
+  gulp.watch(appDev + '/**/*.html', ['build-copy', browserSync.reload]);
+  gulp.watch(appDev + '/**/*.css',  ['build-copy', browserSync.reload]);
 });
 
 
 gulp.task('clean', function() {
-  del(appProd + '/**/*');
-  del(vendor + '/**/*');
+  del(appProd + '/*');
+  del(vendor + '/*');
 });
 
 gulp.task('default', ['build-vendor', 'watch', 'build-ts', 'build-copy', 'browser-sync']);
