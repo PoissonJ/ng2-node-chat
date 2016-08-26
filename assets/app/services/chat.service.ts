@@ -3,7 +3,6 @@ import { Observable } from 'rxjs/Observable';
 import * as io from 'socket.io-client';
 
 export class ChatService {
-  // private url = 'scfldevjp.summit.local:3000';
   private url = 'http://localhost:3000';
   private socket;
 
@@ -42,8 +41,24 @@ export class ChatService {
     return observable;
   }
 
+  getUserStoppedTyping() {
+    let observable = new Observable(observer => {
+      this.socket = io(this.url);
+      this.socket.on('userStoppedTyping', (data) => {
+        observer.next(data.username);
+      });
+      return () => {
+        this.socket.disconnect();
+      };
+    })
+    return observable;
+  }
+
   typing(username) {
     this.socket.emit('typing', { username: username });
-    this.socket.on
+  }
+
+  stopTyping(username) {
+    this.socket.emit('stopTyping', { username: username });
   }
 }

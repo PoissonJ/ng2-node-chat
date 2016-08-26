@@ -66,6 +66,10 @@ io.on('connection', (socket) => {
   socket.on('typing', (obj) => {
     socket.broadcast.emit('userTyping', {username: obj.username});
   });
+
+  socket.on('stopTyping', (obj) => {
+    socket.broadcast.emit('userStoppedTyping', {username: obj.username});
+  });
 });
 
 /**

@@ -41,8 +41,12 @@ export class ChatComponent implements AfterViewChecked, OnInit, OnDestroy {
   username = new String;
   state = new String;
 
+  typing: boolean = false;
+  otherUserTyping: boolean = false;
+
   messageConnection;
   isTypingConnection;
+  notTypingConnection;
   messageModel: Message;
 
   constructor(private chatService: ChatService, private renderer: Renderer) {
@@ -67,6 +71,7 @@ export class ChatComponent implements AfterViewChecked, OnInit, OnDestroy {
   sendMessage() {
     this.chatService.sendMessage(this.messageModel.message, this.username);
     this.messageModel = new Message();
+    this.typing = false;
   }
 
   updateScrollPosition() {
@@ -78,21 +83,31 @@ export class ChatComponent implements AfterViewChecked, OnInit, OnDestroy {
   emitTyping() {
     // console.log(this.username + ' is typing');
     this.chatService.typing(this.username);
+    this.typing = true;
   }
 
   ngOnInit() {
     this.messageConnection = this.chatService.getMessages().subscribe(message => {
       console.log('mesage in ngOnInit: ' + JSON.stringify(message));
       if (message) {
+        this.otherUserTyping = false;
         this.messages.push(message);
       }
     });
 
     this.isTypingConnection = this.chatService.getIsTyping().subscribe(username => {
-      // console.log('mesage in ngOnInit: ' + JSON.stringify(username));
       if (username) {
         // this.messages.push(username);
         console.log(username + ' is typing...');
+        this.otherUserTyping = true;
+      }
+    });
+
+    this.notTypingConnection = this.chatService.getUserStoppedTyping().subscribe(username => {
+      if (username) {
+        // this.messages.push(username);
+        console.log(username + ' is typing...');
+        this.otherUserTyping = false;
       }
     });
   }
@@ -100,6 +115,10 @@ export class ChatComponent implements AfterViewChecked, OnInit, OnDestroy {
   ngAfterViewChecked() {
     this.updateScrollPosition();
     this.renderer.invokeElementMethod(this.inputElement.nativeElement, 'focus');
+    if (!this.messageModel.message && this.typing) {
+      this.chatService.stopTyping(this.username);
+      this.typing = false;
+    }
   }
 
   ngOnDestroy() {
