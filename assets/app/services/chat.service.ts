@@ -32,20 +32,7 @@ export class ChatService {
     let observable = new Observable(observer => {
       this.socket = io(this.url);
       this.socket.on('userTyping', (data) => {
-        observer.next(data.username);
-      });
-      return () => {
-        this.socket.disconnect();
-      };
-    })
-    return observable;
-  }
-
-  getUserStoppedTyping() {
-    let observable = new Observable(observer => {
-      this.socket = io(this.url);
-      this.socket.on('userStoppedTyping', (data) => {
-        observer.next(data.username);
+        observer.next(data);
       });
       return () => {
         this.socket.disconnect();

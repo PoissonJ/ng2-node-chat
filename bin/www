@@ -38,6 +38,7 @@ server.on('listening', onListening);
  * Socket.io functions
  */
 var messages = [];
+var timeout;
 io.on('connection', (socket) => {
   console.log('user connected');
   console.log('socket id: ' + (socket.id));
@@ -59,17 +60,35 @@ io.on('connection', (socket) => {
     messages.push(message);
 
     io.emit('message', {
-      message: message
+      message: message,
     });
+    clearTimeout(timeout);
+    socket.broadcast.emit(
+      'userTyping',
+      {username: obj.username, typing: false}
+    );
   });
+
+  /* Emit 'User is typing...' functions */
+  function timeoutFunction(obj) {
+    console.log('in typing cancel');
+    socket.broadcast.emit(
+      'userTyping',
+      {username: obj.username, typing: false}
+    );
+  }
 
   socket.on('typing', (obj) => {
-    socket.broadcast.emit('userTyping', {username: obj.username});
+    console.log('in typing');
+    socket.broadcast.emit(
+      'userTyping',
+      {username: obj.username, typing: true}
+    );
+    clearTimeout(timeout);
+    timeout = setTimeout(timeoutFunction.bind(null, obj), 2000);
   });
+  /******************************************/
 
-  socket.on('stopTyping', (obj) => {
-    socket.broadcast.emit('userStoppedTyping', {username: obj.username});
-  });
 });
 
 /**

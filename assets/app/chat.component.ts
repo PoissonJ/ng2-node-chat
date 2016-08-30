@@ -41,12 +41,11 @@ export class ChatComponent implements AfterViewChecked, OnInit, OnDestroy {
   username = new String;
   state = new String;
 
-  typing: boolean = false;
   otherUserTyping: boolean = false;
+  otherUsername: string;
 
   messageConnection;
-  isTypingConnection;
-  notTypingConnection;
+  typingConnection;
   messageModel: Message;
 
   constructor(private chatService: ChatService, private renderer: Renderer) {
@@ -71,7 +70,6 @@ export class ChatComponent implements AfterViewChecked, OnInit, OnDestroy {
   sendMessage() {
     this.chatService.sendMessage(this.messageModel.message, this.username);
     this.messageModel = new Message();
-    this.typing = false;
   }
 
   updateScrollPosition() {
@@ -81,33 +79,23 @@ export class ChatComponent implements AfterViewChecked, OnInit, OnDestroy {
   }
 
   emitTyping() {
-    // console.log(this.username + ' is typing');
     this.chatService.typing(this.username);
-    this.typing = true;
   }
 
   ngOnInit() {
     this.messageConnection = this.chatService.getMessages().subscribe(message => {
       console.log('mesage in ngOnInit: ' + JSON.stringify(message));
       if (message) {
+        console.log('other user tying set to false')
         this.otherUserTyping = false;
         this.messages.push(message);
       }
     });
 
-    this.isTypingConnection = this.chatService.getIsTyping().subscribe(username => {
-      if (username) {
-        // this.messages.push(username);
-        console.log(username + ' is typing...');
-        this.otherUserTyping = true;
-      }
-    });
-
-    this.notTypingConnection = this.chatService.getUserStoppedTyping().subscribe(username => {
-      if (username) {
-        // this.messages.push(username);
-        console.log(username + ' is typing...');
-        this.otherUserTyping = false;
+    this.typingConnection = this.chatService.getIsTyping().subscribe(data => {
+      if (data['username'] !== this.username) {
+        this.otherUserTyping = data['typing'];
+        this.otherUsername = data['username'];
       }
     });
   }
@@ -115,15 +103,11 @@ export class ChatComponent implements AfterViewChecked, OnInit, OnDestroy {
   ngAfterViewChecked() {
     this.updateScrollPosition();
     this.renderer.invokeElementMethod(this.inputElement.nativeElement, 'focus');
-    if (!this.messageModel.message && this.typing) {
-      this.chatService.stopTyping(this.username);
-      this.typing = false;
-    }
   }
 
   ngOnDestroy() {
     this.messageConnection.unsubscribe();
-    this.isTypingConnection.unsubscribe();
+    this.typingConnection.unsubscribe();
   }
 
   ngAfterViewInit() {
